@@ -1,4 +1,4 @@
-const { nextISSTimesForMyLocation } = require("./iss");
+const { nextISSTimesForMyLocation } = require("./iss-promised");
 
 const printPassTimes = function (passTimes) {
   for (const pass of passTimes) {
@@ -8,10 +8,6 @@ const printPassTimes = function (passTimes) {
   }
 };
 
-nextISSTimesForMyLocation((error, passTimes) => {
-  if (error) return console.log("It didn't work!", error);
-
-  printPassTimes(passTimes);
-});
-
-module.exports = { printPassTimes };
+nextISSTimesForMyLocation()
+  .then((passTimes) => printPassTimes(passTimes))
+  .catch((error) => console.log("It didn't work: ", error.message));
